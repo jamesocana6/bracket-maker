@@ -5,3 +5,6 @@ def home(request):
 
 def about(request):
     return render(request, "about.html")
+
+def tournaments_index(request):
+    return render(request, "tournaments/index.html")
