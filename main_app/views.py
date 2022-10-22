@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
+from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from main_app.models import Tournament
 
@@ -41,8 +42,19 @@ def user_tournaments_index(request, user_id):
 
 class TournamentCreate(CreateView):
     model = Tournament
-    fields = ["event_name", "date", "game", "venue", "prize_pool"]
+    fields = ["event_name", "date", "game", "venue", "max_players", "prize_pool"]
 
     def form_valid(self, form):
         form.instance.user = self.request.user
         return super().form_valid(form)
+
+class TournamentUpdate(UpdateView):
+    model = Tournament
+    fields = ["event_name", "date", "game", "venue", "max_players", "prize_pool"]
+
+class TournamentDelete(DeleteView):
+    model = Tournament
+
+    def get_success_url(self):
+        return reverse('user_tournaments_index', kwargs={'user_id': self.object.user_id})
+
