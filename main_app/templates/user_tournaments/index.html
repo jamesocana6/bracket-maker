@@ -1,0 +1,17 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>{{ user }}'s Tournament Index</h1>
+
+<a class="btn" href="{% url 'user_tournaments_create' user.id %}">Create Tournament</a>
+
+<!-- Shows all tournaments ongoing and upcoming -->
+{% for tournament in tournaments %}
+<a href="{% url 'tournaments_detail' tournament.id %}"><h6>{{ tournament.event_name }}</h6></a>
+<h6>{{ tournament.date }}</h6>
+<h6>{{ tournament.venue }}</h6>
+<!-- <h6>{{ tournament.players }}</h6> -->
+<h6>${{ tournament.prize_pool }}</h6>
+<!-- <h6>{{ tournament.is_complete }}</h6> -->
+{% endfor %}
+
+{% endblock %}

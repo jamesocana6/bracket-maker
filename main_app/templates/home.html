@@ -1,5 +1,15 @@
 {% extends "base.html" %} {% block content %}
 
-<h1>Home</h1>
+<h1>Tournament Home</h1>
+
+<!-- Shows all tournaments ongoing and upcoming -->
+{% for tournament in tournaments %}
+<h6>{{ tournament.name }}</h6>
+<h6>{{ tournament.venue }}</h6>
+<h6>{{ tournament.players }}</h6>
+<h6>{{ tournament.prize_pool }}</h6>
+<h6>{{ tournament.is_complete }}</h6>
+{% endfor %}
+
 
 {% endblock %}
