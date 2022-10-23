@@ -2,8 +2,10 @@
 
 <h1>{{ tournament.event_name }}</h1>
 
+{% if user.host %}
 <a class="btn" href="{% url 'tournaments_update' tournament.id %}">Edit</a>
 <a class="btn" href="{% url 'tournaments_delete' tournament.id %}">Delete</a>
+{% endif %}
 
 <!-- Shows all tournaments ongoing and upcoming -->
 <h6>{{ tournament.event_name }}</h6>
