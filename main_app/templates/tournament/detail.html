@@ -15,10 +15,15 @@
 <!-- <h6>{{ tournament.is_complete }}</h6> -->
 
 {% if user.player %}
+    {% if user.player not in tournament.player_set.all %}
+
 <form action="{% url 'join' tournament.id user.player.id %}" method="post">
     {% csrf_token %}
     <button type="submit" class="btn">Join</button>
 </form>
+    {% else %}
+<h6>Joined!</h6>
+    {% endif %}
 {% endif %}
 
 {% endblock %}
