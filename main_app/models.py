@@ -2,6 +2,19 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse, reverse_lazy
 
+
+class Host(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    
+    def __str__(self):
+      return self.user.username
+
+class Player(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+      return self.user.username
+
 # Create your models here.
 class Tournament(models.Model):
   event_name = models.CharField(max_length=100)
@@ -11,15 +24,16 @@ class Tournament(models.Model):
   max_players = models.IntegerField()
   prize_pool = models.IntegerField()
   is_complete = models.BooleanField(default=False)
+  players = models.ManyToManyField(Player)
   #links to a user 
   user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-  # new code below
   def __str__(self):
-      return self.event_name
+      return f"{self.event_name} id {self.id}"
 
   def get_absolute_url(self):
     return reverse('user_tournaments_index', kwargs={'user_id': self.user_id})
 
-  def get_success_url(self):
-    return reverse('user_tournaments_index', kwargs={'user_id': self.user_id})
+#   def get_success_url(self):
+#     return reverse('user_tournaments_index', kwargs={'user_id': self.user_id})
+

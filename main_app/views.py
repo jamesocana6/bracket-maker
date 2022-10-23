@@ -1,8 +1,10 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from main_app.models import Tournament
+from main_app.models import Host, Tournament, Player
 
 # class Tournament():
 #     def __init__(self, name, venue, players, prize_pool, is_complete = False):
@@ -39,6 +41,39 @@ def user_tournaments_index(request, user_id):
         "tournaments" : tournaments,
         "user": user,
     })
+
+def signup(request):
+  error_message = ''
+  if request.method == 'POST':
+    form = UserCreationForm(request.POST)
+    if form.is_valid():
+      # TARGERS THE HOST CHECKBOX VALUE
+      if request.POST.get("host"):
+        print("REQUEST POST HOST", request.POST["host"])
+        print("host")
+        user = form.save()
+        user.save()
+        host = Host.objects.create(user=user)
+        host.save()
+        login(request, user)
+      else:
+        print("player")
+        user = form.save()
+        user.save()
+        player = Player.objects.create(user=user)
+        player.save()
+        login(request, user)
+      return redirect('user_tournaments_index', user.id)
+    else:
+      error_message = 'Invalid sign up - try again'
+  form = UserCreationForm()
+  context = {'form': form, 'error_message': error_message}
+  return render(request, 'registration/signup.html', context)
+
+def join(request, tournament_id, player_id):
+  # Note that you can pass a toy's id instead of the whole object
+   Tournament.objects.get(id=tournament_id).players.add(player_id)
+   return redirect('tournaments_detail', tournament_id=tournament_id)
 
 class TournamentCreate(CreateView):
     model = Tournament

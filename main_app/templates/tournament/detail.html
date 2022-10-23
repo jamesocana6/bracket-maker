@@ -14,4 +14,11 @@
 <h6>${{ tournament.prize_pool }}</h6>
 <!-- <h6>{{ tournament.is_complete }}</h6> -->
 
+{% if user.player %}
+<form action="{% url 'join' tournament.id user.player.id %}" method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn">Join</button>
+</form>
+{% endif %}
+
 {% endblock %}

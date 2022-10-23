@@ -10,4 +10,7 @@ urlpatterns = [
     path("tournament/<int:tournament_id>", views.tournaments_detail, name="tournaments_detail"),
     path("tournament/<int:pk>/update/", views.TournamentUpdate.as_view(), name="tournaments_update"),
     path("tournament/<int:pk>/delete/", views.TournamentDelete.as_view(), name="tournaments_delete"),
+    path('tournament/<int:tournament_id>/join/<int:player_id>/', views.join, name='join'),
+    path("accounts/signup/", views.signup, name="signup"),
+
 ]
