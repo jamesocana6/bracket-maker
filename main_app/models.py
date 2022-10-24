@@ -21,7 +21,11 @@ class Tournament(models.Model):
   date = models.DateField()
   game = models.CharField(max_length=100)
   venue = models.CharField(max_length=250)
-  max_players = models.IntegerField()
+  max_players = models.IntegerField(
+    choices=((2, "2"), (4, "4"), (8, "8"), (16, "16"), (32, "32")),
+    default=8,
+    )
+  
   prize_pool = models.IntegerField()
   is_complete = models.BooleanField(default=False)
   players = models.ManyToManyField(Player)

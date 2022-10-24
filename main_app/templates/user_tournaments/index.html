@@ -1,15 +1,19 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>{{ user }}'s Tournament Index</h1>
+<h1>{{ page_user }}'s Tournament Index</h1>
 
+{% if user.id == page_user.id %}
 <a class="btn" href="{% url 'user_tournaments_create' user.id %}">Create Tournament</a>
+{% endif %}
 
 <!-- Shows all tournaments ongoing and upcoming -->
 {% for tournament in tournaments %}
 <a href="{% url 'tournaments_detail' tournament.id %}"><h6>{{ tournament.event_name }}</h6></a>
+<h6>{{ tournament.game }}</h6>
 <h6>{{ tournament.date }}</h6>
 <h6>{{ tournament.user }}</h6>
 <h6>{{ tournament.venue }}</h6>
+<h6>Spaces Available {{ joined }}</h6>
 <h6>{{ tournament.max_players }}</h6>
 {% for player in tournament.players.all %}
 <h6>{{ player.user.username }}</h6>

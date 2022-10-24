@@ -29,7 +29,11 @@ def tournaments_home(request):
 
 def tournaments_detail(request, tournament_id):
     tournament = Tournament.objects.get(id = tournament_id)
-    return render(request, "tournament/detail.html", {"tournament" : tournament})
+    joined = tournament.max_players - len(tournament.players.all())
+    return render(request, "tournament/detail.html", {
+        "tournament" : tournament,
+        "joined": joined,
+        })
 
 def about(request):
     return render(request, "about.html")
@@ -39,7 +43,7 @@ def user_tournaments_index(request, user_id):
     tournaments = user.tournament_set.all()
     return render(request, "user_tournaments/index.html", {
         "tournaments" : tournaments,
-        "user": user,
+        "page_user": user,
     })
 
 def signup(request):

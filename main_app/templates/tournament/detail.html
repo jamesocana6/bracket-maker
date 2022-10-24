@@ -12,9 +12,11 @@
 
 <!-- Shows all tournaments ongoing and upcoming -->
 <h6>{{ tournament.event_name }}</h6>
+<h6>{{ tournament.game }}</h6>
 <h6>{{ tournament.date }}</h6>
 <h6>{{ tournament.user }}</h6>
 <h6>{{ tournament.venue }}</h6>
+<h6>Spaces Available {{ joined }}</h6>
 <h6>{{ tournament.max_players }}</h6>
 {% for player in tournament.players.all %}
 <h6>{{ player.user.username }}</h6>
@@ -33,5 +35,16 @@
 <h6>Joined!</h6>
     {% endif %}
 {% endif %}
+
+<!-- BRACKET -->
+
+<div class="match">
+<div class="top-player">
+    <div class="top-name">{{ tournament.players.first.user.username }}</div>
+</div>
+<div class="bottom-player">
+    <div class="bottom-name">{{ tournament.players.first.user.username }}</div>
+</div>
+</div>
 
 {% endblock %}

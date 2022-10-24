@@ -1,0 +1,17 @@
+body {
+    background-color: brown;
+}
+
+.match {
+    background-color: aliceblue;
+    
+}
+
+.top-player {
+    background-color: green;
+}
+
+.top-name {
+    background-color: blue;
+    width: 10rem;
+}

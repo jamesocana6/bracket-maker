@@ -5,11 +5,14 @@
 <!-- Shows all tournaments ongoing and upcoming -->
 {% for tournament in tournaments %}
 <a href="{% url 'tournaments_detail' tournament.id %}"><h6>{{ tournament.event_name }}</h6></a>
-<h6>{{ tournament.user }}</h6>
+<a href="{% url 'user_tournaments_index' tournament.user.id %}" ><h6>{{ tournament.user }}</h6></a>
+<h6>{{ tournament.game }}</h6>
 <h6>{{ tournament.venue }}</h6>
 {% for player in tournament.players.all %}
 <h6>{{ player.user.username }}</h6>
 {% endfor %}
+<h6>Spaces Available {{ joined }}</h6>
+<h6>${{ tournament.max_players }}</h6>
 <h6>${{ tournament.prize_pool }}</h6>
 <h6>{{ tournament.is_complete }}</h6>
 {% endfor %}
