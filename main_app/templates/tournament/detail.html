@@ -5,7 +5,7 @@
 <!-- TODO: ADD IF TO MAKE IT SO THAT ONLY THE HOST CREATOR CAN EDIT AND DELETE -->
 <!-- TODO: FIX STYLING TO LOOK LIKE A BRACKET -->
 <!-- TODO: ADD LOGIC TO SAY THE TOURNEY IS FULL IF max_players joined -->
-{% if user.host %}
+{% if user.id == tournament.user.id %}
 <a class="btn" href="{% url 'tournaments_update' tournament.id %}">Edit</a>
 <a class="btn" href="{% url 'tournaments_delete' tournament.id %}">Delete</a>
 {% endif %}
@@ -13,6 +13,7 @@
 <!-- Shows all tournaments ongoing and upcoming -->
 <h6>{{ tournament.event_name }}</h6>
 <h6>{{ tournament.date }}</h6>
+<h6>{{ tournament.user }}</h6>
 <h6>{{ tournament.venue }}</h6>
 <h6>{{ tournament.max_players }}</h6>
 {% for player in tournament.players.all %}

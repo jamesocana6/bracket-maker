@@ -8,6 +8,7 @@
 {% for tournament in tournaments %}
 <a href="{% url 'tournaments_detail' tournament.id %}"><h6>{{ tournament.event_name }}</h6></a>
 <h6>{{ tournament.date }}</h6>
+<h6>{{ tournament.user }}</h6>
 <h6>{{ tournament.venue }}</h6>
 <h6>{{ tournament.max_players }}</h6>
 {% for player in tournament.players.all %}
