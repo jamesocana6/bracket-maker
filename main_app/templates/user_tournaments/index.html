@@ -10,7 +10,9 @@
 <h6>{{ tournament.date }}</h6>
 <h6>{{ tournament.venue }}</h6>
 <h6>{{ tournament.max_players }}</h6>
-<!-- <h6>{{ tournament.players }}</h6> -->
+{% for player in tournament.players.all %}
+<h6>{{ player.user.username }}</h6>
+{% endfor %}
 <h6>${{ tournament.prize_pool }}</h6>
 <!-- <h6>{{ tournament.is_complete }}</h6> -->
 {% endfor %}

@@ -2,6 +2,9 @@
 
 <h1>{{ tournament.event_name }}</h1>
 
+<!-- TODO: ADD IF TO MAKE IT SO THAT ONLY THE HOST CREATOR CAN EDIT AND DELETE -->
+<!-- TODO: FIX STYLING TO LOOK LIKE A BRACKET -->
+<!-- TODO: ADD LOGIC TO SAY THE TOURNEY IS FULL IF max_players joined -->
 {% if user.host %}
 <a class="btn" href="{% url 'tournaments_update' tournament.id %}">Edit</a>
 <a class="btn" href="{% url 'tournaments_delete' tournament.id %}">Delete</a>
@@ -12,17 +15,19 @@
 <h6>{{ tournament.date }}</h6>
 <h6>{{ tournament.venue }}</h6>
 <h6>{{ tournament.max_players }}</h6>
-<!-- <h6>{{ tournament.players }}</h6> -->
+{% for player in tournament.players.all %}
+<h6>{{ player.user.username }}</h6>
+{% endfor %}
+
 <h6>${{ tournament.prize_pool }}</h6>
 <!-- <h6>{{ tournament.is_complete }}</h6> -->
 
 {% if user.player %}
-    {% if user.player not in tournament.player_set.all %}
-
-<form action="{% url 'join' tournament.id user.player.id %}" method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn">Join</button>
-</form>
+    {% if user.player not in tournament.players.all %}
+    <form action="{% url 'join' tournament.id user.player.id %}" method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn">Join</button>
+    </form>
     {% else %}
 <h6>Joined!</h6>
     {% endif %}

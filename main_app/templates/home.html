@@ -5,8 +5,11 @@
 <!-- Shows all tournaments ongoing and upcoming -->
 {% for tournament in tournaments %}
 <a href="{% url 'tournaments_detail' tournament.id %}"><h6>{{ tournament.event_name }}</h6></a>
+<h6>{{ tournament.host }}</h6>
 <h6>{{ tournament.venue }}</h6>
-<h6>{{ tournament.players }}</h6>
+{% for player in tournament.players.all %}
+<h6>{{ player.user.username }}</h6>
+{% endfor %}
 <h6>{{ tournament.prize_pool }}</h6>
 <h6>{{ tournament.is_complete }}</h6>
 {% endfor %}
