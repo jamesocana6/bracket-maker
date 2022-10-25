@@ -1,29 +1,35 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>{{ tournament.event_name }}</h1>
-
-<!-- TODO: ADD IF TO MAKE IT SO THAT ONLY THE HOST CREATOR CAN EDIT AND DELETE -->
-<!-- TODO: FIX STYLING TO LOOK LIKE A BRACKET -->
-<!-- TODO: ADD LOGIC TO SAY THE TOURNEY IS FULL IF max_players joined -->
+<h3>{{ tournament.event_name }}</h3>
+<hr>
 {% if user.id == tournament.user.id %}
 <a class="btn" href="{% url 'tournaments_update' tournament.id %}">Edit</a>
 <a class="btn" href="{% url 'tournaments_delete' tournament.id %}">Delete</a>
 {% endif %}
 
-<!-- Shows all tournaments ongoing and upcoming -->
-<h6>{{ tournament.event_name }}</h6>
-<h6>{{ tournament.game }}</h6>
-<h6>{{ tournament.date }}</h6>
-<h6>{{ tournament.user }}</h6>
-<h6>{{ tournament.venue }}</h6>
-<h6>Spaces Available {{ joined }}</h6>
-<h6>{{ tournament.max_players }}</h6>
-{% for player in tournament.players.all %}
-<h6>{{ player.user.username }}</h6>
-{% endfor %}
+        <div class="row">
+            <div class="col s6">
+                <b>Game:</b> {{ tournament.game }} <br>
+                <b>Date:</b> {{ tournament.date }}<br>
+                <b>Prize Pool:</b> ${{ tournament.prize_pool }}
+                
+            </div>
+            <div class="col s6">
+                <b>Host:</b> <a href="{% url 'user_tournaments_index' tournament.user.id %}" >{{ tournament.user }}</a> <br>
+                <b>Venue:</b> {{ tournament.venue }} <br>
+                <b>Max Entrants:</b> {{ tournament.max_players }}
+                
+            </div>
+        </div>
+        <b>{{ joined }}</b> Spaces Left <br>
+        Registered Players:
+        <p>
+            {% for player in tournament.players.all %}
+            {{ player.user.username }}
+            {% endfor %}
+        </p>
 
-<h6>${{ tournament.prize_pool }}</h6>
-<!-- <h6>{{ tournament.is_complete }}</h6> -->
+
 
 {% if user.player %}
     {% if user.player not in tournament.players.all %}
@@ -32,19 +38,45 @@
         <button type="submit" class="btn">Join</button>
     </form>
     {% else %}
-<h6>Joined!</h6>
+    <button type="submit" class="btn disabled">Joined!</button>
     {% endif %}
 {% endif %}
 
-<!-- BRACKET -->
 
-<div class="match">
-<div class="top-player">
-    <div class="top-name">{{ tournament.players.first.user.username }}</div>
-</div>
-<div class="bottom-player">
-    <div class="bottom-name">{{ tournament.players.first.user.username }}</div>
-</div>
-</div>
+<!-- BRACKET -->
+<!-- <div class="container players-{{tournament.max_players}}">
+    <div class="round-1">
+    {% for i in range %}
+        <div class="match-{{forloop.counter}} round-1">
+            <div class="top-player">
+            {{ tournament.players.first.user.username }}
+            </div>
+            <div class="bottom-player">
+            {{ tournament.players.first.user.username }}
+            </div>
+        </div>
+    {% endfor %}
+    </div>
+</div> -->
+
+<!-- BRACKET LOGIC -->
+<!-- <script type='text/javascript' src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js'></script>
+<script type='text/javascript'>
+    let x = $("div.round-1")
+    x.click((event) => {
+        let round = event.target.parentElement.classList[1]
+        let match = event.target.parentElement
+        if (event.target.parentElement.classList[0].match(/(\d+)/)[0] % 2 === 0) {
+            console.log("EVEN")
+            console.log(round)
+            match.setAttribute("class", "match")
+        } else {
+            console.log("odd")
+
+        }
+        console.log(event.target)
+        console.log(event.target.parentElement.classList)
+    })
+</script> -->
 
 {% endblock %}

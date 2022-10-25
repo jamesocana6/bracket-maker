@@ -5,6 +5,7 @@ from django.contrib.auth import login
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from main_app.models import Host, Tournament, Player
+from datetime import date, datetime, timedelta
 
 # class Tournament():
 #     def __init__(self, name, venue, players, prize_pool, is_complete = False):
@@ -25,12 +26,20 @@ def home(request):
 
 def tournaments_home(request):
     tournaments = Tournament.objects.all()
-    return render(request, "home.html", {"tournaments" : tournaments})
+    today = date.today()
+    past = tournaments.filter(date__lt=today)
+    upcoming = tournaments.filter(date__gte=today)
+    return render(request, "home.html", {
+        "tournaments" : tournaments,
+        "past": past,
+        "upcoming": upcoming,
+    })
 
 def tournaments_detail(request, tournament_id):
     tournament = Tournament.objects.get(id = tournament_id)
     joined = tournament.max_players - len(tournament.players.all())
     return render(request, "tournament/detail.html", {
+        "range" : range(int(tournament.max_players/2)),
         "tournament" : tournament,
         "joined": joined,
         })
@@ -41,9 +50,27 @@ def about(request):
 def user_tournaments_index(request, user_id):
     user = User.objects.get(id = user_id)
     tournaments = user.tournament_set.all()
+    today = date.today()
+    past = tournaments.filter(date__lt=today)
+    upcoming = tournaments.filter(date__gte=today)
     return render(request, "user_tournaments/index.html", {
         "tournaments" : tournaments,
         "page_user": user,
+        "past": past,
+        "upcoming": upcoming,
+    })
+
+def player_tournaments_index(request, player_id):
+    user = Player.objects.get(id = player_id)
+    tournaments = user.tournament_set.all()
+    today = date.today()
+    past = tournaments.filter(date__lt=today)
+    upcoming = tournaments.filter(date__gte=today)
+    return render(request, "user_tournaments/index.html", {
+        "tournaments" : tournaments,
+        "page_user": user,
+        "past": past,
+        "upcoming": upcoming,
     })
 
 def signup(request):

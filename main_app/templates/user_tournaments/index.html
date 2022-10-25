@@ -1,25 +1,77 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>{{ page_user }}'s Tournament Index</h1>
+{% if page_user.host %}
+<h3>{{ page_user }}'s Hosted Tournaments</h3>
+{% else %}
+<h3>{{ page_user }}'s Entered Tournaments</h3>
+{% endif %}
 
 {% if user.id == page_user.id %}
-<a class="btn" href="{% url 'user_tournaments_create' user.id %}">Create Tournament</a>
+<a class="btn" href="{% url 'user_tournaments_create' user.id %}">Post a Tournament</a>
 {% endif %}
 
 <!-- Shows all tournaments ongoing and upcoming -->
-{% for tournament in tournaments %}
-<a href="{% url 'tournaments_detail' tournament.id %}"><h6>{{ tournament.event_name }}</h6></a>
-<h6>{{ tournament.game }}</h6>
-<h6>{{ tournament.date }}</h6>
-<h6>{{ tournament.user }}</h6>
-<h6>{{ tournament.venue }}</h6>
-<h6>Spaces Available {{ joined }}</h6>
-<h6>{{ tournament.max_players }}</h6>
-{% for player in tournament.players.all %}
-<h6>{{ player.user.username }}</h6>
+<h4>Upcoming Events</h4>
+{% for tournament in upcoming %}
+<div class="card">
+    <div class="card-content hoverable">
+        <span class="card-title">
+            <a href="{% url 'tournaments_detail' tournament.id %}">{{ tournament.event_name }}</a>
+        </span>
+        <hr>
+        <div class="row">
+            <div class="col s6">
+                <b>Game:</b> {{ tournament.game }} <br>
+                <b>Date:</b> {{ tournament.date }}<br>
+                <b>Prize Pool:</b> ${{ tournament.prize_pool }}
+                
+            </div>
+            <div class="col s6">
+                <b>Host:</b> <a href="{% url 'user_tournaments_index' tournament.user.id %}" >{{ tournament.user }}</a> <br>
+                <b>Venue:</b> {{ tournament.venue }} <br>
+                <b>Max Entrants:</b> {{ tournament.max_players }}
+                
+            </div>
+        </div>
+        Registered Players:
+        <p>
+            {% for player in tournament.players.all %}
+            {{ player.user.username }}
+            {% endfor %}
+        </p>
+    </div>
+</div>
 {% endfor %}
-<h6>${{ tournament.prize_pool }}</h6>
-<!-- <h6>{{ tournament.is_complete }}</h6> -->
+<h4>Past Events</h4>
+{% for tournament in past %}
+<div class="card">
+    <div class="card-content hoverable grey lighten-1">
+        <span class="card-title">
+            <a href="{% url 'tournaments_detail' tournament.id %}">{{ tournament.event_name }}</a>
+        </span>
+        <hr>
+        <div class="row">
+            <div class="col s6">
+                <b>Game:</b> {{ tournament.game }} <br>
+                <b>Date:</b> {{ tournament.date }}<br>
+                <b>Prize Pool:</b> ${{ tournament.prize_pool }}
+                
+            </div>
+            <div class="col s6">
+                <b>Host:</b> <a href="{% url 'user_tournaments_index' tournament.user.id %}" >{{ tournament.user }}</a> <br>
+                <b>Venue:</b> {{ tournament.venue }} <br>
+                <b>Max Entrants:</b> {{ tournament.max_players }}
+                
+            </div>
+        </div>
+        Registered Players:
+        <p>
+            {% for player in tournament.players.all %}
+            {{ player.user.username }}
+            {% endfor %}
+        </p>
+    </div>
+</div>
 {% endfor %}
 
 {% endblock %}
