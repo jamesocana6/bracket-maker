@@ -5,7 +5,7 @@
 <h4>Upcoming Events</h4>
 {% for tournament in upcoming %}
 <div class="card">
-    <div class="card-content hoverable">
+    <div class="card-content hoverable grey darken-3">
         <span class="card-title">
             <a href="{% url 'tournaments_detail' tournament.id %}">{{ tournament.event_name }}</a>
         </span>
@@ -36,7 +36,7 @@
 <h4>Past Events</h4>
 {% for tournament in past %}
 <div class="card">
-    <div class="card-content hoverable grey lighten-1">
+    <div class="card-content hoverable grey darken-1">
         <span class="card-title">
             <a href="{% url 'tournaments_detail' tournament.id %}">{{ tournament.event_name }}</a>
         </span>

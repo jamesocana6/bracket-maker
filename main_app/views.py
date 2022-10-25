@@ -22,7 +22,7 @@ from datetime import date, datetime, timedelta
 # ]
 
 def home(request):
-    return redirect("tournaments/")
+    return redirect("tournament/")
 
 def tournaments_home(request):
     tournaments = Tournament.objects.all()
