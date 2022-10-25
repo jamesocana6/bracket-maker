@@ -7,8 +7,8 @@ body {
     display: flex;
     min-height: 100vh;
     flex-direction: column;
-    background-color: rgb(91, 91, 91);
-    color: antiquewhite;
+    background-color: rgb(240, 240, 240);
+    color: rgb(30, 30, 30);
 }
 
 main {
@@ -20,3 +20,12 @@ footer {
     text-align: right;
 }
 
+.header-top {
+    background-color: rgba(255, 255, 255, 0.9);
+}
+
+.top-part {
+    text-align: center;
+    background-image: url("https://thumbs.dreamstime.com/b/big-esports-event-video-games-fan-tribune-tournament-s-arena-hands-raised-cheering-his-favorite-team-162348527.jpg");
+    background-size: contain;
+}

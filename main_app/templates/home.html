@@ -1,69 +1,74 @@
 {% extends "base.html" %} {% block content %}
 
-<h3>Tournament Home</h3>
+<div class="top-part">
+<div class="container">
+<div class="card header-top">
+<div class="card-content black-text">
+    <h3>All Tournaments</h3>
+    Planning on hosting a tournament?<br>
+    <a class="btn-small" href="{% url 'signup' %}">Signup as a host</a> <br> <br>
+    Want to join a tournament?<br>
+    <a class="btn-small" href="{% url 'signup' %}">Signup as a player</a> <br>
+</div>
+</div>
+</div>
+</div>
+
+<hr>
 <!-- Shows all tournaments ongoing and upcoming -->
 <h4>Upcoming Events</h4>
+<div class="row">
 {% for tournament in upcoming %}
+<div class="col s4">
 <div class="card">
-    <div class="card-content hoverable grey darken-3">
+    <div class="card-content hoverable">
         <span class="card-title">
             <a href="{% url 'tournaments_detail' tournament.id %}">{{ tournament.event_name }}</a>
         </span>
+        {{ tournament.game }}
         <hr>
-        <div class="row">
-            <div class="col s6">
-                <b>Game:</b> {{ tournament.game }} <br>
-                <b>Date:</b> {{ tournament.date }}<br>
-                <b>Prize Pool:</b> ${{ tournament.prize_pool }}
-                
-            </div>
-            <div class="col s6">
                 <b>Host:</b> <a href="{% url 'user_tournaments_index' tournament.user.id %}" >{{ tournament.user }}</a> <br>
-                <b>Venue:</b> {{ tournament.venue }} <br>
-                <b>Max Entrants:</b> {{ tournament.max_players }}
+                <i class="material-icons tiny">event</i> {{ tournament.date }}<br>
+                <i class="material-icons tiny">location_on</i> {{ tournament.venue }} <br>
                 
+                <i class="material-icons tiny">people</i> Attendees (max {{ tournament.max_players }}):
+                <p>
+                    {% for player in tournament.players.all %}
+                    -{{ player.user.username }}
+                    {% endfor %}
+                </p>
             </div>
         </div>
-        Registered Players:
-        <p>
-            {% for player in tournament.players.all %}
-            {{ player.user.username }}
-            {% endfor %}
-        </p>
-    </div>
 </div>
 {% endfor %}
-<h4>Past Events</h4>
-{% for tournament in past %}
-<div class="card">
-    <div class="card-content hoverable grey darken-1">
-        <span class="card-title">
-            <a href="{% url 'tournaments_detail' tournament.id %}">{{ tournament.event_name }}</a>
-        </span>
-        <hr>
-        <div class="row">
-            <div class="col s6">
-                <b>Game:</b> {{ tournament.game }} <br>
-                <b>Date:</b> {{ tournament.date }}<br>
-                <b>Prize Pool:</b> ${{ tournament.prize_pool }}
-                
-            </div>
-            <div class="col s6">
-                <b>Host:</b> <a href="{% url 'user_tournaments_index' tournament.user.id %}" >{{ tournament.user }}</a> <br>
-                <b>Venue:</b> {{ tournament.venue }} <br>
-                <b>Max Entrants:</b> {{ tournament.max_players }}
-                
-            </div>
-        </div>
-        Registered Players:
-        <p>
-            {% for player in tournament.players.all %}
-            {{ player.user.username }}
-            {% endfor %}
-        </p>
-    </div>
 </div>
-{% endfor %}
 
+<h4>Past Events</h4>
+<div class="row">
+    {% for tournament in past %}
+    <div class="col s4">
+    <div class="card">
+        <div class="card-content hoverable">
+            <span class="card-title">
+                <a href="{% url 'tournaments_detail' tournament.id %}">{{ tournament.event_name }}</a>
+            </span>
+            {{ tournament.game }}
+            <hr>
+                    <b>Host:</b> <a href="{% url 'user_tournaments_index' tournament.user.id %}" >{{ tournament.user }}</a> <br>
+                    <i class="material-icons tiny">event</i> {{ tournament.date }}<br>
+                    <i class="material-icons tiny">location_on</i> {{ tournament.venue }} <br>
+                    
+                    <i class="material-icons tiny">people</i> Attendees (max {{ tournament.max_players }}):
+                    <p>
+                        {% for player in tournament.players.all %}
+                        -{{ player.user.username }}
+                        {% endfor %}
+                    </p>
+                </div>
+            </div>
+    </div>
+    {% endfor %}
+    </div>
+    
 
 {% endblock %}
