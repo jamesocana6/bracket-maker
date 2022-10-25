@@ -5,7 +5,9 @@ from django.contrib.auth import login
 from django.urls import reverse
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from main_app.models import Host, Tournament, Player
-from datetime import date, datetime, timedelta
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from datetime import date
 
 # class Tournament():
 #     def __init__(self, name, venue, players, prize_pool, is_complete = False):
@@ -101,12 +103,13 @@ def signup(request):
   context = {'form': form, 'error_message': error_message}
   return render(request, 'registration/signup.html', context)
 
+@login_required
 def join(request, tournament_id, player_id):
   # Note that you can pass a toy's id instead of the whole object
    Tournament.objects.get(id=tournament_id).players.add(player_id)
    return redirect('tournaments_detail', tournament_id=tournament_id)
 
-class TournamentCreate(CreateView):
+class TournamentCreate(LoginRequiredMixin, CreateView):
     model = Tournament
     fields = ["event_name", "date", "game", "venue", "max_players", "prize_pool"]
 
@@ -114,11 +117,11 @@ class TournamentCreate(CreateView):
         form.instance.user = self.request.user
         return super().form_valid(form)
 
-class TournamentUpdate(UpdateView):
+class TournamentUpdate(LoginRequiredMixin, UpdateView):
     model = Tournament
     fields = ["event_name", "date", "game", "venue", "max_players", "prize_pool"]
 
-class TournamentDelete(DeleteView):
+class TournamentDelete(LoginRequiredMixin, DeleteView):
     model = Tournament
 
     def get_success_url(self):
