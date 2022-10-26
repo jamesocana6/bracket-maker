@@ -55,4 +55,4 @@ https://trello.com/b/l6eNJKff/tournamentbrackets
 
 
 ## <a name="author"></a>About The Author
-* I want to make apps that people can use to improve their daily experience. Whether it's an app for personal use or an app that helps you do your work better or faster. I also enjoy making games and apps about things I enjoy, like baseball and cooking!
+* I want to make apps that people can use to improve their daily experience. Whether it's an app for personal use or an app that helps you do your work better or faster. I also enjoy making games and apps!
